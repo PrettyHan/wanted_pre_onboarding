@@ -7,7 +7,7 @@ import { WantedService } from './wanted.service';
 export class WantedController {
   constructor(private readonly wantedService: WantedService) {}
 
-  @Post('wanted')
+  @Post()
   async create(@Body() new_wanted: CreateWantedDto) {
     return this.wantedService.create(new_wanted);
   }
