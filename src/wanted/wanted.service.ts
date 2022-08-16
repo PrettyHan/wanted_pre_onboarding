@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { wantedEntity } from './entity/wanted.entity';
 import { Repository } from 'typeorm';
@@ -11,11 +11,18 @@ export class WantedService {
     private wantedRepository: Repository<wantedEntity>,
   ) {}
   async findAll(): Promise<wantedEntity[]> {
-    return this.wantedRepository.find();
+    return await this.wantedRepository.find();
   }
 
   async findOne(id: number): Promise<wantedEntity> {
-    return this.wantedRepository.findOne({ where: { id: id } });
+    let result: wantedEntity = null;
+
+    result = await this.wantedRepository.findOne({ where: { id: id } });
+    if (result == null) {
+      throw new NotFoundException('해당 정보가 없습니다.');
+    }
+
+    return result;
   }
 
   async create(new_wanted: CreateWantedDto): Promise<void> {
