@@ -1,19 +1,38 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { WantedController } from './wanted.controller';
 import { WantedService } from './wanted.service';
+import { Repository } from 'typeorm';
+import { wantedEntity } from './entity/wanted.entity';
+import { getRepositoryToken } from '@nestjs/typeorm';
+
+const mockRepository = () => ({
+  save: jest.fn(),
+  findAll: jest.fn(),
+  findOne: jest.fn(),
+  update: jest.fn(),
+});
+type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>;
 
 describe('WantedController', () => {
   let controller: WantedController;
   let service: WantedService;
+  let repository: MockRepository<wantedEntity>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WantedController],
-      providers: [WantedService],
+      providers: [
+        WantedService,
+        {
+          provide: getRepositoryToken(wantedEntity),
+          useValue: mockRepository(),
+        },
+      ],
     }).compile();
 
     controller = module.get<WantedController>(WantedController);
     service = module.get<WantedService>(WantedService);
+    repository = module.get(getRepositoryToken(wantedEntity));
   });
 
   it('should be defined', () => {
@@ -21,7 +40,7 @@ describe('WantedController', () => {
   });
 
   describe('findOne', () => {
-    it('service 불러와야 댐', async () => {
+    it('findOne <라우터> 작동 확인', async () => {
       const wanted_test = {
         id: 1,
         position: 'test',

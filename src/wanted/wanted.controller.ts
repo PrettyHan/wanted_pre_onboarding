@@ -1,6 +1,5 @@
 import { Body, Controller, Post, Get, Param } from '@nestjs/common';
 import { CreateWantedDto } from './dto';
-import { Wanted } from './interface/wanted.interface';
 import { WantedService } from './wanted.service';
 
 @Controller('wanted')
