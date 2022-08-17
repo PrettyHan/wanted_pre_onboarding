@@ -6,19 +6,23 @@ export class wantedEntity {
   @ApiProperty({ description: 'id' })
   id: number;
 
-  @Column({ nullable: true })
+  @Column({ update: false })
+  @ApiProperty({ description: '회사 id' })
+  company_id: number;
+
+  @Column()
   @ApiProperty({ description: '포지션' })
   position: string;
 
-  @Column({ nullable: true })
+  @Column()
   @ApiProperty({ description: '채용보상금' })
   reward: number;
 
-  @Column({ nullable: true })
+  @Column()
   @ApiProperty({ description: '채용내용' })
   content: string;
 
-  @Column({ nullable: true })
+  @Column()
   @ApiProperty({ description: '사용스킬' })
   skill: string;
 }

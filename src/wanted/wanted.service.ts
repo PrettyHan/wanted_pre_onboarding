@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { wantedEntity } from './entity/wanted.entity';
 import { Repository } from 'typeorm';
-import { CreateWantedDto } from './dto';
+import { CreateWantedDto, UpdateWantedDto } from './dto';
 
 @Injectable()
 export class WantedService {
@@ -10,6 +10,7 @@ export class WantedService {
     @InjectRepository(wantedEntity)
     private wantedRepository: Repository<wantedEntity>,
   ) {}
+
   async findAll(): Promise<wantedEntity[]> {
     return await this.wantedRepository.find();
   }
@@ -32,5 +33,9 @@ export class WantedService {
 
   async remove(id: number): Promise<void> {
     await this.wantedRepository.delete(id);
+  }
+
+  async update(id: number, updateData: UpdateWantedDto): Promise<void> {
+    await this.wantedRepository.update(id, updateData);
   }
 }

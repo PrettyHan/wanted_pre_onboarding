@@ -43,6 +43,7 @@ describe('WantedController', () => {
     it('findOne <라우터> 작동 확인', async () => {
       const wanted_test = {
         id: 1,
+        company_id: 1,
         position: 'test',
         reward: 10000,
         content: 'test',

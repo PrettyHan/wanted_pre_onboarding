@@ -1,5 +1,5 @@
-import { Body, Controller, Post, Get, Param } from '@nestjs/common';
-import { CreateWantedDto } from './dto';
+import { Body, Controller, Post, Get, Param, Patch } from '@nestjs/common';
+import { CreateWantedDto, UpdateWantedDto } from './dto';
 import { WantedService } from './wanted.service';
 
 @Controller('wanted')
@@ -18,5 +18,10 @@ export class WantedController {
   @Get(':id')
   async findOne(@Param() id: number) {
     return await this.wantedService.findOne(id);
+  }
+
+  @Patch(':id')
+  async patch(@Param() id: number, @Body() updateData: UpdateWantedDto) {
+    return await this.wantedService.update(id, updateData);
   }
 }
