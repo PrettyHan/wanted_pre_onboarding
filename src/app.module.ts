@@ -6,6 +6,7 @@ import { WantedService } from './wanted/wanted.service';
 import { WantedModule } from './wanted/wanted.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { wantedEntity } from './wanted/entity/wanted.entity';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { wantedEntity } from './wanted/entity/wanted.entity';
       synchronize: true,
     }),
     WantedModule,
+    CompanyModule,
   ],
   controllers: [AppController, WantedController],
   providers: [AppService, WantedService],
