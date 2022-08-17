@@ -17,9 +17,10 @@ export class WantedService {
   async findOne(id: number): Promise<wantedEntity> {
     let result: wantedEntity = null;
 
-    result = await this.wantedRepository.findOne({ where: { id: id } });
-    if (result == null) {
-      throw new NotFoundException('해당 정보가 없습니다.');
+    result = await this.wantedRepository.findOne({ where: { id } });
+
+    if (!result) {
+      throw new NotFoundException(`해당 정보를 찾을 수 없습니다.`);
     }
 
     return result;
