@@ -1,9 +1,4 @@
-export class UpdateWantedDto {
-  readonly position: string;
+import { PartialType } from '@nestjs/swagger';
+import { CreateWantedDto } from './create.wanted.dto';
 
-  readonly reward: number;
-
-  readonly content: string;
-
-  readonly skill: string;
-}
+export class UpdateWantedDto extends PartialType(CreateWantedDto) {}

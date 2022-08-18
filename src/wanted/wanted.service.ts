@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { wantedEntity } from './entity/wanted.entity';
 import { Repository } from 'typeorm';
@@ -11,20 +15,16 @@ export class WantedService {
     private wantedRepository: Repository<wantedEntity>,
   ) {}
 
-  async findAll(): Promise<wantedEntity[]> {
-    return await this.wantedRepository.find();
+  async findOne(id: number): Promise<wantedEntity> {
+    const found = await this.wantedRepository.findOne({ where: { id: id } });
+    if (!found) {
+      throw new NotFoundException(`해당 정보가 없습니다.`);
+    }
+    return found;
   }
 
-  async findOne(id: number): Promise<wantedEntity> {
-    let result: wantedEntity = null;
-
-    result = await this.wantedRepository.findOne({ where: { id } });
-
-    if (!result) {
-      throw new NotFoundException(`해당 정보를 찾을 수 없습니다.`);
-    }
-
-    return result;
+  async findAll(): Promise<wantedEntity[]> {
+    return await this.wantedRepository.find();
   }
 
   async create(new_wanted: CreateWantedDto): Promise<void> {
@@ -32,10 +32,18 @@ export class WantedService {
   }
 
   async remove(id: number): Promise<void> {
+    const found = await this.findOne(id);
+    if (!found) {
+      throw new NotFoundException('해당 정보가 없습니다.');
+    }
     await this.wantedRepository.delete(id);
   }
 
   async update(id: number, updateData: UpdateWantedDto): Promise<void> {
+    const found = await this.findOne(id);
+    if (!found) {
+      throw new NotFoundException('해당 정보가 없습니다.');
+    }
     await this.wantedRepository.update(id, updateData);
   }
 }
