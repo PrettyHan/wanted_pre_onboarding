@@ -7,6 +7,7 @@ import { WantedModule } from './wanted/wanted.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { wantedEntity } from './wanted/entity/wanted.entity';
 import { CompanyModule } from './company/company.module';
+import { companyEntity } from './company/entity/company.entity';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { CompanyModule } from './company/company.module';
       username: 'root',
       password: 'clfflgksktk',
       database: 'wanted',
-      entities: [wantedEntity],
+      entities: [wantedEntity, companyEntity],
       synchronize: true,
     }),
     WantedModule,
