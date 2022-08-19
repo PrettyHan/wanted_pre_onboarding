@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { WantedController } from './wanted.controller';
 import { WantedService } from './wanted.service';
-import { Repository } from 'typeorm';
+import { Any, Repository } from 'typeorm';
 import { wantedEntity } from './entity/wanted.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 const mockRepository = () => ({
-  save: jest.fn(),
-  findAll: jest.fn(),
-  findOne: jest.fn(),
-  update: jest.fn(),
+  save: jest.fn((callback) => callback()),
+  findAll: jest.fn((callback) => callback()),
+  findOne: jest.fn((callback) => callback()),
+  update: jest.fn((callback) => callback()),
 });
 type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>;
 
@@ -48,6 +48,8 @@ describe('WantedController', () => {
         reward: 10000,
         content: 'test',
         skill: 'test',
+        company: [],
+        otherWanted: [],
       };
       const spy = jest.spyOn(service, 'findOne').mockResolvedValue(wanted_test);
       expect(await controller.findOne(1)).toStrictEqual(wanted_test);

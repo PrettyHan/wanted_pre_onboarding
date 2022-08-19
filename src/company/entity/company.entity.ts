@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
@@ -8,14 +8,17 @@ export class companyEntity {
   id: number;
 
   @Column({ update: false })
+  @Index({ fulltext: true })
   @ApiProperty({ description: '회사이름' })
   name: string;
 
   @Column()
+  @Index({ fulltext: true })
   @ApiProperty({ description: '국가' })
-  contry: string;
+  country: string;
 
   @Column()
+  @Index({ fulltext: true })
   @ApiProperty({ description: '지역' })
   region: string;
 }

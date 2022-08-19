@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Delete,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -15,6 +16,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -26,6 +28,11 @@ import { WantedService } from './wanted.service';
 @Controller('wanted')
 export class WantedController {
   constructor(private readonly wantedService: WantedService) {}
+
+  @Get('search')
+  async search(@Query('search') search: string) {
+    return await this.wantedService.search(search);
+  }
 
   @ApiOperation({
     summary: '채용공고 생성 API',
@@ -53,7 +60,7 @@ export class WantedController {
   }
 
   @ApiOperation({
-    summary: '채용공고 찾기 API',
+    summary: '채용공고 상세 페이지 불러오기 API',
     description: '채용공고 id 받고 해당 채용공고 불러옴',
   })
   @ApiOkResponse({ type: wantedEntity })
@@ -63,7 +70,6 @@ export class WantedController {
   })
   @Get(':id')
   async findOne(@Param('id') id: number) {
-    console.log(id);
     return await this.wantedService.findOne(id);
   }
 

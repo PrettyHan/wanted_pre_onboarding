@@ -10,6 +10,7 @@ const mockRepository = () => ({
   findOne: jest.fn(),
   update: jest.fn(),
   create: jest.fn(),
+  find: jest.fn(),
 });
 type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>;
 // Partial : 타입 T의 모든 요소를 optional하게 한다.
@@ -60,14 +61,21 @@ describe('WantedService', () => {
 
   describe('findOne', () => {
     it('요청 받은 값 == return 값 확인', async () => {
-      const id = 1;
+      const id = 3;
       const test_data = {
-        id: 1,
-        company_id: 1,
-        position: 'test',
+        id: 3,
+        company_id: 2,
+        position: '포지션',
         reward: 10000,
-        content: 'test',
-        skill: 'test',
+        content: '내용',
+        skill: 'test3',
+        company: {
+          id: 2,
+          name: '카카오',
+          country: '대한민국',
+          region: '서울',
+        },
+        otherWanted: [3],
       };
       repository.findOne.mockReturnValue(test_data);
 
@@ -79,7 +87,7 @@ describe('WantedService', () => {
       const id = 100;
 
       await expect(service.findOne(id)).rejects.toThrow(
-        `해당 정보를 찾을 수 없습니다.`,
+        `해당 정보가 없습니다.`,
       );
     });
   });
