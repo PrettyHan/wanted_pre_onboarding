@@ -8,6 +8,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { wantedEntity } from './wanted/entity/wanted.entity';
 import { CompanyModule } from './company/company.module';
 import { companyEntity } from './company/entity/company.entity';
+import { UserService } from './user/user.service';
+import { UserController } from './user/user.controller';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -23,8 +26,9 @@ import { companyEntity } from './company/entity/company.entity';
     }),
     WantedModule,
     CompanyModule,
+    UserModule,
   ],
-  controllers: [AppController, WantedController],
-  providers: [AppService, WantedService],
+  controllers: [AppController, WantedController, UserController],
+  providers: [AppService, WantedService, UserService],
 })
 export class AppModule {}
