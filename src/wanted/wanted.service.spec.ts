@@ -45,7 +45,6 @@ describe('WantedService', () => {
   describe('create', () => {
     it('요청시 잘 만들어지는지 확인', async () => {
       const test_data = {
-        id: 2,
         company_id: 2,
         position: 'test',
         reward: 20000,
@@ -56,6 +55,30 @@ describe('WantedService', () => {
 
       const result = await service.create(test_data);
       expect(result).toEqual(undefined);
+    });
+  });
+
+  describe('list', () => {
+    it('요청시 잘 만들어지는지 확인', async () => {
+      const test_list = [
+        {
+          id: 1,
+          position: 'test2 test3 test1 test123 testtesttest',
+          reward: 10000,
+          skill: 'test3',
+          company: {
+            id: 1,
+            name: '네이버',
+            country: '대한민국',
+            region: '서울',
+          },
+        },
+      ];
+
+      repository.find.mockReturnValue(test_list);
+
+      const result = await service.findAll();
+      expect(result).toEqual(test_list);
     });
   });
 

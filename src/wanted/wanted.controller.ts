@@ -29,6 +29,15 @@ import { WantedService } from './wanted.service';
 export class WantedController {
   constructor(private readonly wantedService: WantedService) {}
 
+  @ApiOperation({
+    summary: '채용공고 검색 API',
+    description: '채용공고 검색',
+  })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiOkResponse({
+    status: 200,
+    type: wantedEntity,
+  })
   @Get('search')
   async search(@Query('search') search: string) {
     return await this.wantedService.search(search);
