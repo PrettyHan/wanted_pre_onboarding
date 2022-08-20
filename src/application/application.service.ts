@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { createApplicationDto } from './dto/create.application.dto';
@@ -12,6 +16,16 @@ export class ApplicationService {
   ) {}
 
   async create(new_application: createApplicationDto): Promise<void> {
+    const { user_id, wanted_id } = new_application;
+    const found = this.applicationRepository
+      .createQueryBuilder()
+      .where('user_id = :user_id', { user_id })
+      .andWhere('wanted_id = :wanted_id', { wanted_id });
+
+    if (found) {
+      throw new NotAcceptableException('이미 지원한 채용공고 입니다.');
+    }
+
     await this.applicationRepository.save(new_application);
   }
 
