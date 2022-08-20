@@ -11,6 +11,9 @@ import { companyEntity } from './company/entity/company.entity';
 import { UserService } from './user/user.service';
 import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
+import { userEntity } from './user/entity/user.entity';
+import { ApplicationModule } from './application/application.module';
+import { applicationEntity } from './application/entity/application.entity';
 
 @Module({
   imports: [
@@ -21,12 +24,13 @@ import { UserModule } from './user/user.module';
       username: 'root',
       password: 'clfflgksktk',
       database: 'wanted',
-      entities: [wantedEntity, companyEntity],
+      entities: [wantedEntity, companyEntity, userEntity, applicationEntity],
       synchronize: true,
     }),
     WantedModule,
     CompanyModule,
     UserModule,
+    ApplicationModule,
   ],
   controllers: [AppController, WantedController, UserController],
   providers: [AppService, WantedService, UserService],
