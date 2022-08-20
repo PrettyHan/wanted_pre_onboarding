@@ -82,6 +82,31 @@ describe('WantedService', () => {
     });
   });
 
+  describe('search', () => {
+    it('요청시 검색 되는지 확인', async () => {
+      const search = '노드';
+      const test_list: any[] = [
+        {
+          id: 2,
+          position: '백엔드',
+          reward: 10000,
+          skill: '노드',
+          company: {
+            id: 1,
+            name: '네이버',
+            country: '대한민국',
+            region: '서울',
+          },
+        },
+      ];
+
+      const spy = jest.spyOn(service, 'search').mockResolvedValue(test_list);
+      const result = await service.search(search);
+      expect(result).toEqual(test_list);
+      expect(spy).toBeCalledWith(search);
+    });
+  });
+
   describe('findOne', () => {
     it('요청 받은 값 == return 값 확인', async () => {
       const id = 3;
@@ -95,7 +120,7 @@ describe('WantedService', () => {
         company: [],
         otherWanted: [],
       };
-      repository.findOne.mockReturnValue(test_data);
+
       const spy = jest.spyOn(service, 'findOne').mockResolvedValue(test_data);
       expect(await service.findOne(id)).toStrictEqual(test_data);
       expect(spy).toBeCalledWith(id);
