@@ -92,19 +92,13 @@ describe('WantedService', () => {
         reward: 10000,
         content: '내용',
         skill: 'test3',
-        company: {
-          id: 2,
-          name: '카카오',
-          country: '대한민국',
-          region: '서울',
-        },
-        otherWanted: [3],
+        company: [],
+        otherWanted: [],
       };
       repository.findOne.mockReturnValue(test_data);
-
-      const result = await service.findOne(id);
-
-      expect(result).toEqual(test_data);
+      const spy = jest.spyOn(service, 'findOne').mockResolvedValue(test_data);
+      expect(await service.findOne(id)).toStrictEqual(test_data);
+      expect(spy).toBeCalledWith(id);
     });
     it('결과값 없을 때, 그에 따른 에러 맞는지 확인', async () => {
       const id = 100;

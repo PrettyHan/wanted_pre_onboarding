@@ -26,9 +26,11 @@ export class WantedService {
       where: { company_id: found.company_id },
       select: ['id'],
     });
-    const otherWanted = found2.map((v) => {
-      return v.id;
-    });
+    const otherWanted = found2
+      .map((v) => {
+        return v.id;
+      })
+      .filter((v) => v !== id);
 
     return { ...found, otherWanted };
   }
@@ -48,6 +50,7 @@ export class WantedService {
   async search(search: string): Promise<wantedEntity[]> {
     const found = await this.wantedRepository
       .createQueryBuilder('wanted')
+      .select(['wanted.id', 'wanted.position', 'wanted.reward', 'wanted.skill'])
       .leftJoinAndSelect('wanted.company', 'company')
       .where('wanted.position like :search', { search: `%${search || ''}%` })
       .orWhere('wanted.skill like :search', { search: `%${search || ''}%` })

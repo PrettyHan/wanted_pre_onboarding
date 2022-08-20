@@ -28,6 +28,17 @@ export class WantedController {
   constructor(private readonly wantedService: WantedService) {}
 
   @ApiOperation({
+    summary: '채용공고 생성 API',
+    description: '채용공고 생성',
+  })
+  @ApiBody({ type: CreateWantedDto })
+  @ApiCreatedResponse({ description: '채용공고 생성', type: wantedEntity })
+  @Post()
+  async create(@Body() new_wanted: CreateWantedDto) {
+    return this.wantedService.create(new_wanted);
+  }
+
+  @ApiOperation({
     summary: '채용공고 검색 API',
     description: '채용공고 검색',
   })
@@ -39,17 +50,6 @@ export class WantedController {
   @Get('search')
   async search(@Query('search') search: string) {
     return await this.wantedService.search(search);
-  }
-
-  @ApiOperation({
-    summary: '채용공고 생성 API',
-    description: '채용공고 생성',
-  })
-  @ApiBody({ type: CreateWantedDto })
-  @ApiCreatedResponse({ description: '채용공고 생성', type: wantedEntity })
-  @Post()
-  async create(@Body() new_wanted: CreateWantedDto) {
-    return this.wantedService.create(new_wanted);
   }
 
   @ApiOperation({
